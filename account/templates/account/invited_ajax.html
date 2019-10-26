@@ -1,0 +1,27 @@
+                            <div class="header">
+                                <p class="category">Приглашенных:  {{ nodes|length }}</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                               {% if nodes|length > 0 %}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                    	<th>Логин</th>
+                                    	<th>Фамилия Имя</th>
+                                    	<th>Балл</th>
+                                    	<th>Регистрация</th>
+                                    </thead>
+                                    <tbody id="table_body">
+        {% for node in nodes %}
+            <tr>
+                <td>{{ node.pk }}</td>
+                <td>{{ node.user.username }}</td>
+                <td>{{ node.user.last_name }} {{ node.user.first_name }}</td>
+                <td>{{ node.total_point }}</td>
+                <td>{{ node.user.date_joined }}</td>
+            </tr>
+        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                            </div>

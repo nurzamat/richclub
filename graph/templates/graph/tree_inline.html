@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load staticfiles mptt_tags %}
+
+{% block sidebar %}
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                    Aroma Lifestyle
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'account:home' %}">
+                        <i class="ti-home"></i>
+                        <p>Общая сводка</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Структура</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:invited' %}">
+                        <i class="ti-user"></i>
+                        <p>Приглашенные</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:bonus_history' %}">
+                        <i class="ti-server"></i>
+                        <p>История бонусов</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'ProductList' %}">
+                        <i class="ti-home"></i>
+                        <p>Интернет магазин</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:documentation' %}">
+                        <i class="ti-map"></i>
+                        <p>Документация</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:notifications' %}">
+                        <i class="ti-bell"></i>
+                        <p>Уведомления</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" media="screen, projection" href="{% static 'graph/tree.css' %}" />
+        <div class="content">
+            <div class="container-fluid">
+                <a href="{% url 'account:structure' %}">Показать списком</a>
+               <div class="text-center">
+               <div class="row">
+                   Левая: {{ left_count }} | Правая: {{ right_count }} | Общее количество: {{ total_count }}
+               </div>
+	<div class="text-left" style="width: 3000px; display:inline-block; overflow-x:scroll">
+		<div class="tree">
+			<ul>
+			{% recursetree nodes %}
+		        <li>
+		        	<a style="border-width: 0px;" href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">
+                        <div class="logo-container">
+                        <div class="logo">
+                            <img style="border-radius: 50%;" src="{% static 'account/img/new_logo.png' %}"/>
+                        </div>
+                        <div class="brand">
+                            Id={{ node.pk }} {{ node.name }}
+                        </div>
+                        </div>
+		            	<div id="displayzone_{{ id }}" class="displayzone"></div>
+		            </a>
+		            {% if not node.is_leaf_node %}
+		                <ul>
+		                    {{ children }}
+		                </ul>
+		            {% endif %}
+		        </li>
+		    {% endrecursetree %}
+		    </ul>
+	    </div>
+	</div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+ {% block footer %}
+{% endblock %}

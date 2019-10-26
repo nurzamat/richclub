@@ -1,0 +1,538 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Главная</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+		<!-- Font -->
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,700,600italic,700italic,800,800italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<!-- Font -->
+
+
+        <link rel="stylesheet" href="{% static 'main/css/normalize.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/main.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/font-awesome.min.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/animate.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'main/css/responsive.css'%}">
+        <script src="{% static 'main/js/vendor/modernizr-2.8.3.min.js'%}"></script>
+
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+		<!-- Header Start -->
+		<header id="home">
+
+			<!-- Main Menu Start -->
+			<div class="main-menu">
+				<div class="navbar-wrapper">
+					<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+						<div class="container">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+									<span class="sr-only">Toggle Navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+
+								<a href="#" class="navbar-brand"><img src="{% static 'main/img/logo.png'%}" alt="Logo" /></a>
+							</div>
+
+							<div class="navbar-collapse collapse">
+								<ul class="nav navbar-nav navbar-right">
+									<li><a href="#home">Главная</a></li>
+									<li><a href="#about">О нас</a></li>
+
+									<li><a href="#feature-work">Продукты</a></li>
+									<li><a href="#testimonials">Отзывы</a></li>
+									<li><a href="#blog">Новости</a></li>
+									<li><a href="#pricing">Адреса</a></li>
+
+									<li><a href="{% url 'account:user_login' %}">Личный кабинет</a></li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Main Menu End -->
+
+			<!-- Sider Start -->
+			<div class="slider">
+				<div id="fawesome-carousel" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators indicatior2">
+						<li data-target="#fawesome-carousel" data-slide-to="0" class="active"></li>
+						<li data-target="#fawesome-carousel" data-slide-to="1"></li>
+					</ol>
+
+					<div class="carousel-inner" role="listbox">
+
+                     {% for slide in slides %}
+                         {% if forloop.first %}
+						<div class="item active">
+							<img src="{% if slide.image %}{{ slide.image.url }}{% endif %}" alt="Slider Big Image">
+							<div class="carousel-caption">
+								<h1 class="wow fadeInLeft">{{ slide.title }}</h1>
+{#                                {{ slide.description|truncatewords:5 }}#}
+                                    <div class="slider-btn wow fadeIn">
+									<a href="{% url 'SlideDetail' slide.id %}" class="btn btn-learn">Подробнее</a>
+								</div>
+							</div>
+						</div>
+                         {% else %}
+						<div class="item">
+							<img src="{% if slide.image %}{{ slide.image.url }}{% endif %}" alt="Slider Big Image">
+							<div class="carousel-caption">
+								<h1 class="wow fadeInLeft">{{ slide.title }}</h1>
+                                <div class="slider-btn wow fadeIn">
+									<a href="{% url 'SlideDetail' slide.id %}" class="btn btn-learn">Подробнее</a>
+								</div>
+							</div>
+						</div>
+                         {% endif %}
+                         {% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- Sider End -->
+
+		</header>
+		<!-- Header End -->
+
+
+		<!-- About Section -->
+		<section id="about" class="site-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div >
+							<img src="{% static 'main/img/112.jpg'%}" alt="About Image" />
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div >
+							<h3>О компании</h3>
+							<p>Совместный проект LifeStyle при ОсОО «АromaЕсо» это
+                                транснациональный проект, специализирующийся на реализации
+                                фармакологических препаратов и косметических средств на международном
+                                розничном рынке, а так же туристическом бизнесе, финансовых операциях и инвестиционной деятельности.
+                                    Основные направления деятельности проекта — оздоровление, восстановление и поддержание
+                                здоровья. Продукция разработана на основе пяти тысячелетнего опыта тибетской медицины,
+                                изготовление с использованием современных технологий.
+{#                                <a href="#" class="btn btn-read-more">Подробнее</a>#}
+
+                            <!-- Button trigger modal -->
+<button type="button" class="btn btn-read-more" data-toggle="modal" data-target="#exampleModalCenter">
+  Подробнее
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">О компании</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <p style="text-indent: 30px"> Совместный проект LifeStyle при ОсОО «АromaЕсо» это транснациональный проект,
+          специализирующийся на реализации фармакологических препаратов и косметических
+          средств на международном розничном рынке, а так же туристическом бизнесе, финансовых операциях и инвестиционной деятельности.
+            Основные направления деятельности проекта — оздоровление, восстановление и поддержание здоровья.
+          Продукция разработана на основе пяти тысячелетнего опыта тибетской медицины,
+          изготовление с использованием современных НАНОТЕХНОЛОГИЙ.
+                            <br/></p>
+
+            <p style="text-indent: 30px">МИССИЯ КОМПАНИИ: содействовать повышению качества жизни людей, предоставляя возможность независимым
+          дистрибуторам компании вести выгодный и интересный бизнес в партнерстве с компанией, а для
+          клиентов пользоваться знаниями и качественной продукцией для восстановления и поддержания здоровья,
+          предоставление населению возможность  потребления, улучшение качества жизни,
+          построение гармоничного международного сообщества.
+                <br/></p>
+            <p style="text-indent: 30px">ФИЛОСОФИЯ БИЗНЕСА: Служить обществу, восстанавливая здоровье человечества.
+                <br/></p>
+<p style="text-indent: 30px">КОРПОРАТИВНЫИ ДУХ КОМПАНИИ: Внести максимальный вклад в развитие
+          экономики страны, стремится к великим целям посредством организации командной работы и истиной самоотдачи.
+    <br/></p>
+        <p style="text-indent: 30px">«Я желаю Вам, мои дорогие партнеры дальнейших успехов и процветания в
+          деле развития нашего общего дела, никогда не терять уверенности в
+          себе, веру в себя и в компанию, всегда добиваться всего, о чем мечтает сердце,
+          больших вознаграждений за любые старания. И поблагодарить Вас, мои дорогие партнеры,
+          за доверие и поддержку, за продуктивную работу, которая помогает нам развиваться и идти только
+            вперед, за реализацию всех намеченных целей и за вашу искреннюю веру в наше дело»</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- About Section -->
+
+
+		<!-- Award Winning Section -->
+
+
+		<!-- Award Winning Section -->
+
+
+		<!-- Feature Section -->
+
+
+
+
+
+		<!-- Featured Work -->
+
+		<section id="feature-work" class="protfolio-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="title">
+                            <a href="{% url 'Products' %}"> <h3>Наши <span>продукты</span></h3></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+            <div class="container">
+                <div class="row">
+                    <section id="content row" class="container-fluid">
+                       <div id="main" class="col-sm-12">
+
+    <div class="items row">
+      {% for product in products %}
+        <div class="item col-md-3">
+            <a href="{% url 'ProductDetails' product.id %}">
+                <img src="{% if product.image %}{{ product.image.url }}{% endif %}" class="img-responsive " >
+            </a>
+            <a href="{% url 'ProductDetails' product.id %}"> <h4> {{ product.name }}</h4></a><br>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+		</section>
+                </div>
+            </div>
+        </section>
+
+		<!-- Featured Work -->
+
+
+		<!-- Testimonials -->
+
+		<section id="testimonials">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="title">
+							<h3>Отзывы <span>клиентов</span></h3>
+						</div>
+					</div>
+                </div>
+
+				<div id="fawesome-carousel-two" class="carousel slide" data-ride="carousel" data-interval="6000">
+					<ol class="carousel-indicators">
+
+						<li data-target="#fawesome-carousel-two" data-slide-to="0" ></li>
+						<li data-target="#fawesome-carousel-two" data-slide-to="1"></li>
+                        <li data-target="#fawesome-carousel-two" data-slide-to="2"></li>
+                        <li data-target="#fawesome-carousel-two" data-slide-to="3"></li>
+                    </ol>
+
+					<div class="carousel-inner" >
+
+
+
+                                {% for testim in testims %}
+                                {% if forloop.first %}
+                                    <div class="item active">
+
+								    <div class="col-md-6 col-md-offset-3">
+									<div class="single-testimonials">
+										<div class="text">
+                                            <p>
+                                                {{ testim.text }}
+                                            </p>
+                                        </div>
+
+										<div class="profile-image">
+
+											<h4>{{ testim.name }}</h4>
+											<p>{{ testim.profession }}</p>
+										</div>
+
+									</div>
+								</div>
+
+                                    </div>
+                                    {% else %}
+                                    <div class="item ">
+
+								    <div class="col-md-6 col-md-offset-3">
+									<div class="single-testimonials">
+										<div class="text">
+                                            <p>
+                                                {{ testim.text }}
+                                            </p>
+                                        </div>
+
+										<div class="profile-image">
+
+											<h4>{{ testim.name }}</h4>
+											<p>{{ testim.profession }}</p>
+										</div>
+
+									</div>
+								</div>
+                                    </div>
+                                    {% endif %}
+
+
+ {% endfor %}
+
+                    </div>
+
+
+
+					</div>
+
+
+{#</div>#}
+			</div>
+		</section>
+
+		<!-- Testimonials -->
+
+
+		<!-- From the Blog-->
+
+		<section id="blog" class="site-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 ">
+						<div class="title">
+                            <a href="{% url 'NewsList' %}"><h3>Последние <span>Новости</span></h3></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+
+
+                    {% for new in news %}
+                        <div class="col-sm-4">
+						<div class="single-blog">
+                        <a href="{% url 'NewsDetail' new.id %}">
+							<img src="{% if new.image %}{{ new.image.url }}{% endif %}" alt="News" />
+                        </a>
+                            <h4> <a href="{% url 'NewsDetail' new.id %}">{{ new.title }}</a></h4>
+                            <p>
+                                {{ new.description|truncatewords:30 }}
+                            </p>
+
+                                <a href="{% url 'NewsDetail' new.id %}" >Читать далее</a>
+
+						</div>
+                        </div>
+                    {% endfor %}
+
+
+
+
+
+
+				</div>
+
+			</div>
+		</section>
+
+		<!-- From the Blog-->
+
+
+		<!-- Pricing --->
+		<section  id="pricing">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="title">
+							<h3></h3>
+						</div>
+						<div class="title">
+							<h3>Карта</h3>
+						</div>
+					</div>
+                    <div class="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5849.201787498955!2d74.56479752964187!3d42.86015970000084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389ec84a03bad5e7%3A0xb3b6d55dbbe4839f!2zNCDRg9C7LiDQotGL0L3Ri9Cx0LXQutC-0LLQsCwg0JHQuNGI0LrQtdC6!5e0!3m2!1sru!2skg!4v1554356687522!5m2!1sru!2skg" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+            </div>
+		</section>
+		<!-- Pricing --->
+
+
+
+
+
+
+
+
+		<!-- footer -->
+
+		<footer>
+			<div class="container">
+				<div class="row">
+
+                    <div class="col-sm-12">
+						<div class="title">
+							<h3>Наши <span>адреса</span></h3>
+						</div>
+					</div>
+
+
+					<!-- Single Footer -->
+					<div class="col-sm-3">
+						<div class="single-footer">
+							<h4>Бишкек</h4>
+							<p>ул. Тыныбекова 4/пересекает Некрасова <br/>
+                                (возле чайхана Кара-Суу) <br />
+                                тел.+996 558 58 22 58
+							</p>
+						</div>
+					</div>
+					<!-- Single Footer -->
+
+                    <!-- Single Footer -->
+					<div class="col-sm-3">
+						<div class="single-footer">
+							<h4>Ош</h4>
+							<p>ул. Курманжан Датка 281а  <br/>
+                                (возле гостиницы Алай) <br />
+                                тел.+996 772 90 55 17
+							</p>
+						</div>
+					</div>
+					<!-- Single Footer -->
+
+
+ <!-- Single Footer -->
+					<div class="col-sm-3">
+						<div class="single-footer">
+							<h4>Жала-Абад</h4>
+							<p>Центральный рынок.
+                                <br/>
+                         Магазин Маркай <br/>
+                            тел.+996 557 79 19 01
+							</p>
+						</div>
+					</div>
+					<!-- Single Footer -->
+
+                    <!-- Single Footer -->
+					<div class="col-sm-3 ">
+							<div class="single-footer">
+                                <h4>Мы в социальных сетях</h4>
+                                <div class="social">
+								<ul>
+									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+									<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+								</ul>
+                                </div>
+							</div>
+						</div>
+					<!-- Single Footer -->
+
+				</div>
+			</div>
+
+		</footer>
+
+		<!-- Copyright -->
+		<div class="copyright">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 ">
+							<div class="copyright pull-right">
+								<p>All Rights Reserved | Copyright 2019 ©   <a href="#">Ananasit</a></p>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+		<!-- footer -->
+
+
+
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{% static 'main/js/vendor/jquery-1.12.0.min.js'%}"><\/script>')</script>
+        <script src="{% static 'main/js/plugins.js'%}"></script>
+        <script src="{% static 'main/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'main/js/jquery.mousewheel-3.0.6.pack.js'%}"></script>
+        <script src="{% static 'main/js/paralax.js'%}"></script>
+        <script src="{% static 'main/js/jquery.smooth-scroll.js'%}"></script>
+{#        <script src="{% static 'main/js/jquery.sticky.js'%}"></script>#}
+        <script src="{% static 'main/js/wow.min.js'%}"></script>
+        <script src="{% static 'main/js/main.js'%}"></script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('a[href^="#"]').on('click',function (e) {
+					e.preventDefault();
+
+					var target = this.hash;
+					var $target = $(target);
+
+					$('html, body').stop().animate({
+						 'scrollTop': $target.offset().top
+					}, 900, 'swing');
+					});
+			});
+		</script>
+
+{#		<script src="{% static 'main/js/custom.js'%}"></script>#}
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+{#        <script>#}
+{#            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=#}
+{#            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;#}
+{#            e=o.createElement(i);r=o.getElementsByTagName(i)[0];#}
+{#            e.src='https://www.google-analytics.com/analytics.js';#}
+{#            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));#}
+{#            ga('create','UA-XXXXX-X','auto');ga('send','pageview');#}
+{#        </script>#}
+    </body>
+</html>

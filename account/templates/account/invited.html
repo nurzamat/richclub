@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidebar %}
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                    Aroma Lifestyle
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'account:home' %}">
+                        <i class="ti-home"></i>
+                        <p>Общая сводка</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Структура</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'account:invited' %}">
+                        <i class="ti-user"></i>
+                        <p>Приглашенные</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:bonus_history' %}">
+                        <i class="ti-server"></i>
+                        <p>История бонусов</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'ProductList' %}">
+                        <i class="ti-home"></i>
+                        <p>Интернет магазин</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:documentation' %}">
+                        <i class="ti-map"></i>
+                        <p>Документация</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:notifications' %}">
+                        <i class="ti-bell"></i>
+                        <p>Уведомления</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    $(document).ready(function(){
+        $('.button').on("click",function(){
+            var level =  $(this).attr("data-id");
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url "account:invited_ajax" %}',
+                data: {
+          'level': level
+        },
+    success: function  (data) {
+        $('#card_table').html(data);
+    }
+});
+
+        })
+    	});
+  </script>
+{% endblock %}
+
+{% block content %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+<!-- horizontal tabs -->
+<div class="nav-tabs-navigation">
+    <div class="nav-tabs-wrapper">
+        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#tab1" class="button" data-id="1" data-toggle="tab">1</a></li>
+            <li><a href="#tab2" class="button" data-id="2" data-toggle="tab">2</a></li>
+            <li><a href="#tab3" class="button" data-id="3" data-toggle="tab">3</a></li>
+            <li><a href="#tab4" class="button" data-id="4" data-toggle="tab">4</a></li>
+            <li><a href="#tab5" class="button" data-id="5" data-toggle="tab">5</a></li>
+            <li><a href="#tab6" class="button" data-id="6" data-toggle="tab">6</a></li>
+            <li><a href="#tab7" class="button" data-id="7" data-toggle="tab">7</a></li>
+            <li><a href="#tab8" class="button" data-id="8" data-toggle="tab">8</a></li>
+            <li><a href="#tab9" class="button" data-id="9" data-toggle="tab">9</a></li>
+            <li><a href="#tab10" class="button" data-id="10" data-toggle="tab">10</a></li>
+        </ul>
+    </div>
+</div>
+                </div>
+            <div class="row">
+                 <div class="card" id="card_table">
+                            <div class="header">
+                                <p class="category">Приглашенных:  {{ nodes|length }}</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                    	<th>Логин</th>
+                                    	<th>Фамилия Имя</th>
+                                    	<th>Балл</th>
+                                    	<th>Регистрация</th>
+                                    </thead>
+                                    <tbody id="table_body">
+        {% for node in nodes %}
+            <tr>
+                <td>{{ node.pk }}</td>
+                <td>{{ node.user.username }}</td>
+                <td>{{ node.user.last_name }} {{ node.user.first_name }}</td>
+                <td>{{ node.total_point }}</td>
+                <td>{{ node.user.date_joined }}</td>
+            </tr>
+        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+            </div>
+            </div>
+        </div>
+{% endblock %}

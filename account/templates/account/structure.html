@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidebar %}
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                    Aroma Lifestyle
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'account:home' %}">
+                        <i class="ti-home"></i>
+                        <p>Общая сводка</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Структура</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:invited' %}">
+                        <i class="ti-user"></i>
+                        <p>Приглашенные</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:bonus_history' %}">
+                        <i class="ti-server"></i>
+                        <p>История бонусов</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'ProductList' %}">
+                        <i class="ti-home"></i>
+                        <p>Интернет магазин</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:documentation' %}">
+                        <i class="ti-map"></i>
+                        <p>Документация</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:notifications' %}">
+                        <i class="ti-bell"></i>
+                        <p>Уведомления</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+{% endblock %}
+
+{% block content %}
+        <div class="content">
+            <div class="container-fluid">
+                <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">Иерархия</a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h7 class="title">Состав Вашей структуры</h7>
+                                <p class="category">Всего партнеров: {{ nodes|length }}</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                               {% if nodes|length > 0 %}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                    	<th>Логин</th>
+                                    	<th>Фамилия Имя</th>
+                                    	<th>Балл</th>
+                                    	<th>Регистрация</th>
+                                    </thead>
+                                    <tbody id="table_body">
+        {% for node in nodes %}
+            <tr>
+                <td>{{ node.user.pk }}</td>
+                <td>{{ node.user.username }}</td>
+                <td>{{ node.user.last_name }} {{ node.user.first_name }}</td>
+                <td>{{ node.total_point }}</td>
+                <td>{{ node.user.date_joined }}</td>
+            </tr>
+        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

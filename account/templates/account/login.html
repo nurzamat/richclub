@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidebar %}
+{% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                 <div class="row">
+                       {% if alert %}
+                     <div class="alert alert-warning">
+        <span><b> {{ alert }}</b></span>
+    </div>
+                     {% endif %}
+                 </div>
+            </div>
+        </nav>
+{% endblock %}
+{% block content %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                      <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Вход</h4>
+                            </div>
+                            <div class="content">
+                                <form action="{% url 'account:user_login' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Логин</label>
+                                                <input type="text" name="username" required class="form-control border-input" placeholder="Логин">
+                                            </div>
+                                        </div>
+                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Пароль</label>
+                                                <input type="password" name="password" required class="form-control border-input" placeholder="Пароль">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd">Войти</button>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <a href="{% url 'account:signup' %}">Регистрация</a>
+                                    </div>
+                </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

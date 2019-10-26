@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidebar %}
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                    Aroma Lifestyle
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'account:home' %}">
+                        <i class="ti-home"></i>
+                        <p>Общая сводка</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Структура</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:invited' %}">
+                        <i class="ti-user"></i>
+                        <p>Приглашенные</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:bonus_history' %}">
+                        <i class="ti-server"></i>
+                        <p>История бонусов</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'ProductList' %}">
+                        <i class="ti-home"></i>
+                        <p>Интернет магазин</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'account:documentation' %}">
+                        <i class="ti-map"></i>
+                        <p>Документация</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:notifications' %}">
+                        <i class="ti-bell"></i>
+                        <p>Уведомления</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+{% endblock %}
+
+{% block content %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                                <div class="space-top"></div>
+            <div class="tim-container" style="min-height: 2000px;">
+<div class="tim-row">
+	<h2 class="text-center">Short Description and Usage</h2>
+	<legend></legend>
+	<p>
+	Paper Dashboard is a beautiful resource built over Bootstrap to allow you to create powerful and beautiful dashboards. We have redesigned all the usual components in Bootstrap to make it look flat, minimalist and easy to use.
+	<br /><br />
+		Using the dashboard is very simple, but it does require you to understand basic JavaScript functions. To get the desired effect you will need to integrate JS plugins that take a little bit more effort. Down below we list all the files you need to include inside the application to get going.
+	</p>
+</div>
+<div class="tim-row">
+	<h2 class="text-center">Getting Started</h2>
+	<legend></legend>
+	<p>
+	The Paper Dashboard is built on top of Bootstrap 3, so you can safely use it on your existing or new Bootstrap project. No line of code from Bootstrap 3 was changed, so you don't have to worry about undesired effects in your work.
+	</p>
+	<p>
+		We provide all the necessary CSS resources. So, to immediately change or get started with our design, include the "css/paper-dashboard.css" in your HTML template. Your project will get the new look.
+	</p>
+	<p>
+		To jump start your project, you can use our start-up template where all the files are already included and ready to use. If you do however, want to start from scratch, you can see the file structure below. The core JavaScript is contained in "js/paper-dashboard.js". Some functions are called from "js/demo.js" because they are presented only for demo purpose, you can check there how they are working and duplicate their effect on your projct. For the other files, you should add them if you use the specific element inside your page.
+	</p>
+</div>
+                <div class="tim-row">
+	<h2 class="text-center">Как собирать бонус</h2>
+	<legend></legend>
+	<p>
+	The Paper Dashboard is built on top of Bootstrap 3, so you can safely use it on your existing or new Bootstrap project. No line of code from Bootstrap 3 was changed, so you don't have to worry about undesired effects in your work.
+	</p>
+	<p>
+		We provide all the necessary CSS resources. So, to immediately change or get started with our design, include the "css/paper-dashboard.css" in your HTML template. Your project will get the new look.
+	</p>
+	<p>
+		To jump start your project, you can use our start-up template where all the files are already included and ready to use. If you do however, want to start from scratch, you can see the file structure below. The core JavaScript is contained in "js/paper-dashboard.js". Some functions are called from "js/demo.js" because they are presented only for demo purpose, you can check there how they are working and duplicate their effect on your projct. For the other files, you should add them if you use the specific element inside your page.
+	</p>
+</div>
+                <div class="tim-row">
+	<h2 class="text-center">Как купить товар</h2>
+	<legend></legend>
+	<p>
+	The Paper Dashboard is built on top of Bootstrap 3, so you can safely use it on your existing or new Bootstrap project. No line of code from Bootstrap 3 was changed, so you don't have to worry about undesired effects in your work.
+	</p>
+	<p>
+		We provide all the necessary CSS resources. So, to immediately change or get started with our design, include the "css/paper-dashboard.css" in your HTML template. Your project will get the new look.
+	</p>
+	<p>
+		To jump start your project, you can use our start-up template where all the files are already included and ready to use. If you do however, want to start from scratch, you can see the file structure below. The core JavaScript is contained in "js/paper-dashboard.js". Some functions are called from "js/demo.js" because they are presented only for demo purpose, you can check there how they are working and duplicate their effect on your projct. For the other files, you should add them if you use the specific element inside your page.
+	</p>
+</div>
+            </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
