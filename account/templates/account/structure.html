@@ -10,7 +10,7 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="" class="simple-text">
-                    Aroma Lifestyle
+                    Elite Travel Club
                 </a>
             </div>
             <ul class="nav">
@@ -79,8 +79,9 @@
                                         <th>ID</th>
                                     	<th>Логин</th>
                                     	<th>Фамилия Имя</th>
-                                    	<th>Балл</th>
-                                    	<th>Регистрация</th>
+                                    	<th>Бонус</th>
+                                    	<th>Статус</th>
+                                        <th>Регистрация</th>
                                     </thead>
                                     <tbody id="table_body">
         {% for node in nodes %}
@@ -88,7 +89,8 @@
                 <td>{{ node.user.pk }}</td>
                 <td>{{ node.user.username }}</td>
                 <td>{{ node.user.last_name }} {{ node.user.first_name }}</td>
-                <td>{{ node.total_point }}</td>
+                <td>{{ node.bonus }}</td>
+                <td>{{ node.status }}</td>
                 <td>{{ node.user.date_joined }}</td>
             </tr>
         {% endfor %}

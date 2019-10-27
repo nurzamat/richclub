@@ -23,7 +23,15 @@ class Node(MPTTModel):
         verbose_name_plural = "Nodes"
 
     def __str__(self):
-        return self.user.username
+        return self.user.username + get_status(self.status)
+
+
+def get_status(status):
+    if status == 0:
+        return "    (неактивный)"
+    if status == 1:
+        return "    (активный)"
+    return ""
 
 
 class BonusType(models.Model):
@@ -39,6 +47,7 @@ class Bonus(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     partner = models.ForeignKey(Node, on_delete=models.CASCADE, related_name="bonus_partner", null=True)
     type = models.CharField(max_length=60, null=True, blank=True)
+    currency = models.CharField(max_length=20, null=True, blank=True)
     created_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
@@ -56,3 +65,9 @@ class BonusSettings(models.Model):
         return self.bonus_type.name
 
 
+class PropertyValueSettings(models.Model):
+    name = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name

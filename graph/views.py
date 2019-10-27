@@ -9,12 +9,12 @@ from account.models import Node
 
 class ModelListGraphsView(TemplateView):
     template_name = 'graph/index.html'
-    
+
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_staff:
             raise Http404
         return super(ModelListGraphsView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super(ModelListGraphsView, self).get_context_data(**kwargs)
         context['graphs'] = GraphModel.objects.all()
@@ -23,18 +23,18 @@ class ModelListGraphsView(TemplateView):
 
 class ModelGraphView(TemplateView):
     template_name = 'graph/tree.html'
-    
+
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_staff:
             raise Http404
         return super(ModelGraphView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super(ModelGraphView, self).get_context_data(**kwargs)
         # model = get_model_from_path(self.kwargs['modpath'])
         root_node_pk = self.kwargs['pk']
         root_node = Node.objects.get(pk=root_node_pk)
-        nodes = root_node.get_descendants(include_self=True)
+        nodes = root_node.get_descendants(include_self=True)[:20]
 
         left_count = 0
         right_count = 0
@@ -52,9 +52,12 @@ class ModelGraphView(TemplateView):
             left_child = None
 
         context['nodes'] = nodes
+        context['root_id'] = root_node_pk
         context['total_count'] = left_count + right_count
         context['left_count'] = left_count
         context['right_count'] = right_count
+        context['left_pv'] = root_node.left_point
+        context['right_pv'] = root_node.right_point
         return context
 
 

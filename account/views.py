@@ -1,12 +1,13 @@
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.urls import reverse
+from .models import Node, BonusSettings, BonusType, Bonus, PropertyValueSettings
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.db import IntegrityError, transaction
 from django.db.models import Sum
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
-
-from .models import Node, BonusSettings, BonusType, Bonus
 
 
 def index(request):
@@ -52,32 +53,49 @@ def signup(request):
             return render(request, 'account/signup.html', {'alert': "Регистрируйтесь по реферальной ссылке",
                                                            'inviter': inviter})
 
+        inviter_node = get_object_or_404(Node, pk=int(inviter))
+        if inviter_node.status == 0:
+            return render(request, 'account/signup.html', {'alert': "Реферальная ссылка неактивна",
+                                                           'inviter': inviter})
+
         username_exists = User.objects.filter(username__iexact=username).exists()
         if username_exists:
             return render(request, 'account/signup.html', {'alert': "Такой логин существует в системе",
                                                            'inviter': inviter})
 
-        inviter_node = get_object_or_404(Node, pk=int(inviter))
         if tree_parent == '':
             return render(request, 'account/signup.html', {'alert': "Укажите parent id",
                                                            'inviter': inviter})
+            # auto define node
+            # node = get_object_or_404(Node, inviter=inviter_node)
+            # left_node, left_count = get_tree_parent_node(node, False, 0)
+            # right_node, right_count = get_tree_parent_node(node, True, 0)
+            # if left_count > right_count:
+            #    parent_node = right_node
+            #    is_right = True
+            # else:
+            #    parent_node = left_node
+            #    is_right = False
         else:
             parent_node = get_object_or_404(Node, pk=int(tree_parent))
+            if parent_node.children.count() > 5:
+                return render(request, 'account/signup.html',
+                              {'alert': "Данный tree parent занят", 'inviter': inviter})
 
         try:
             with transaction.atomic():
                 node, user, user_profile = save_registration(address, city, country, username, email, first_name,
-                                                             last_name,
-                                                             middle_name, parent_node, password,
-                                                             phone, inviter_node)
+                                                             last_name, middle_name, parent_node, password, phone, inviter_node)
         except IntegrityError:
-            return render(request, 'account/signup.html', {'alert': "Ошибка при регистрации", 'inviter': inviter})
+            return render(request, 'account/signup.html', {'alert': "Ошибка при регистрации",
+                                                           'inviter': inviter})
 
         if user and user_profile and node:
             login(request, user)
             return redirect('account:home')
         else:
-            return render(request, 'account/signup.html', {'alert': "Ошибка регистрации", 'inviter': inviter})
+            return render(request, 'account/signup.html', {'alert': "Ошибка регистрации",
+                                                           'inviter': inviter})
     else:
         inviter = ''
         if request.GET.get('inviter'):
@@ -100,63 +118,83 @@ def save_registration(address, city, country, username, email, first_name, last_
     user = User(username=username, email=email, first_name=first_name, last_name=last_name, is_staff=1)
     user.set_password(password)
     user.save()
-    node = Node.objects.create(user=user, address=address, city=city, country=country, middle_name=middle_name, phone=phone, parent=parent_node,
+
+    node = Node.objects.create(user=user, address=address, country=country, city=city, middle_name=middle_name, phone=phone, parent=parent_node,
                                inviter=inviter)
 
-    #calculate_bonus(node, inviter)
+    # calculate_bonus(node, inviter)
 
     return node, user
 
 
-def calculate_bonus(node, inviter):
-    # bonus
-    if inviter:
-        bonus_settings = BonusSettings.objects.all()
-        bonus_types = BonusType.objects.all()
-        recommendation_type = bonus_types.get(code=1)
-        # step_type = bonus_types.get(code=2)
-        cycle_type = bonus_types.get(code=3)
+def calculate_bonus():
+    value_settings = get_object_or_404(PropertyValueSettings, name='pv_som')
+    pv_value_som = int(value_settings.value)
+    # nodes = Node.objects.filter(pk__gt=int(value_settings.value)).order_by('id')
+    nodes = Node.objects.filter(status=1, is_processed=0).order_by('id')
+    bonus_settings = BonusSettings.objects.all()
+    bonus_types = BonusType.objects.all()
+    recommendation_type = bonus_types.get(code=1)
+    cycle_type = bonus_types.get(code=3)
+    cycle_bonus_value = bonus_settings.get(bonus_type=cycle_type, level=1).bonus_value
+    # last_node_id = 0
+    for node in nodes:
+        # last_node_id = node.pk
+        calculate_recommendation_bonus(node, recommendation_type)
+        calculate_parent_bonus(cycle_type, node, node, cycle_bonus_value, pv_value_som)
+        node.is_processed = 1
+        node.save()
+    # if last_node_id > 0:
+    #    value_settings.value = last_node_id
+    #    value_settings.save()
 
-        # bonus for recommendation
-        recommendation_bonus_value = bonus_settings.get(bonus_type=recommendation_type, level=1).bonus_value
-        Bonus.objects.create(node=inviter, value=recommendation_bonus_value, partner=node,
-                             type=recommendation_type.name)
 
+def calculate_recommendation_bonus(node, recommendation_type):
+    inviter = node.inviter
+    recommendation_bonus_value = node.package.recommendation_bonus_usd
+    if inviter is None:
+        return
+    if inviter.status == 1:
+        Bonus.objects.create(node=inviter, value=recommendation_bonus_value, partner=node, type=recommendation_type.name, currency='usd')
         if inviter.bonus is None:
             inviter.bonus = recommendation_bonus_value
         else:
             inviter.bonus = inviter.bonus + recommendation_bonus_value
         inviter.save()
 
-        # bonus for registration
-        price_som = node.package.price_som
-        calculate_parent_bonus(cycle_type, node, price_som)
 
-
-def calculate_parent_bonus(cycle_type, node, price_som):
+def calculate_parent_bonus(cycle_type, node, partner, cycle_bonus_value, pv_value_som):
+    price_som = node.package.price_som
     is_right = node.is_right
     parent = node.parent
     if parent is None:
         return
-    if is_right:
-        parent.right_point = parent.right_point + (parent.package.percent * price_som)/100
-    else:
-        parent.left_point = parent.left_point + (parent.package.percent * price_som)/100
-    bonus = 0
-    if parent.right_point > parent.left_point:
-        bonus = parent.left_point
-    elif parent.right_point < parent.left_point:
-        bonus = parent.right_point
-    else:
-        bonus = parent.right_point
-    if bonus > 0:
-        parent.right_point = parent.right_point - bonus
-        parent.left_point = parent.left_point - bonus
-        parent.bonus = parent.bonus + bonus
-        Bonus.objects.create(node=parent, value=bonus, partner=node,
-                             type=cycle_type.name)
-    parent.save()
-    return calculate_parent_bonus(cycle_type, parent, price_som)
+    if parent.status == 1:
+        if is_right:
+            parent.right_point = parent.right_point + (parent.package.percent * price_som)/(100 * pv_value_som)
+        else:
+            parent.left_point = parent.left_point + (parent.package.percent * price_som)/(100 * pv_value_som)
+        pv_bonus = 0
+        if parent.right_point > parent.left_point:
+            pv_bonus = parent.left_point
+        elif parent.right_point < parent.left_point:
+            pv_bonus = parent.right_point
+        else:
+            pv_bonus = parent.right_point
+        if pv_bonus > 0:
+            if parent.right_point is None:
+                parent.right_point = 0
+            if parent.left_point is None:
+                parent.left_point = 0
+            if parent.bonus is None:
+                parent.bonus = 0
+            parent.right_point = parent.right_point - pv_bonus
+            parent.left_point = parent.left_point - pv_bonus
+            bonus = pv_bonus * cycle_bonus_value
+            parent.bonus = parent.bonus + bonus
+            Bonus.objects.create(node=parent, value=bonus, partner=partner, type=cycle_type.name, currency='usd')
+        parent.save()
+    return calculate_parent_bonus(cycle_type, parent, partner, cycle_bonus_value, pv_value_som)
 
 
 def validate_username_ajax(request):

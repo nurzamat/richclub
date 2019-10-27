@@ -10,7 +10,7 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="" class="simple-text">
-                    Aroma Lifestyle
+                    Elite Travel Club
                 </a>
             </div>
             <ul class="nav">
@@ -120,7 +120,7 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Бонус</p>
-                                            {{ node.bonus }}
+                                            <p>{{ node.bonus }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Этап</p>
-                                            {{ node.step}}
+                                            <p>{{ node.step}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Цикл</p>
-                                            {{ node.cycle}}
+                                            <p>{{ node.cycle}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@ var x = setInterval(function() {
                     <div class="col-lg-8 col-md-7">
                         <div class="form-group">
                         <label>Ваша реферальная ссылка</label>
-                        <input type="text"  name="referal"  class="form-control border-input" value="http://95.179.198.148/account/signup?inviter={{node.pk }}">
+                        <input type="text"  name="referal"  class="form-control border-input" value="http://elite-world.club/account/signup?inviter={{node.pk }}">
                         </div>
                     </div>
                 </div>
@@ -222,7 +222,12 @@ var x = setInterval(function() {
                     <div class="col-lg-8 col-md-7">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Профиль</h4>
+                                {% if node.status == 0 %}
+                                    <h4 class="title" style="color: red">Профиль неактивный</h4>
+                                {% endif %}
+                                {% if node.status == 1 %}
+                                    <h4 class="title" >Профиль</h4>
+                                {% endif %}
                             </div>
                             <div class="content">
                                 <form>
@@ -298,7 +303,7 @@ var x = setInterval(function() {
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                    Дата регистрации: {{ node.reg_date }}
+                                    Дата регистрации: {{ node.created_date }}
                                 </form>
                             </div>
                         </div>

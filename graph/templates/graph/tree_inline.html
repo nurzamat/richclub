@@ -10,7 +10,7 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="" class="simple-text">
-                    Aroma Lifestyle
+                    Elite Travel Club
                 </a>
             </div>
             <ul class="nav">
@@ -67,22 +67,40 @@
             <div class="container-fluid">
                 <a href="{% url 'account:structure' %}">Показать списком</a>
                <div class="text-center">
+                   <div class="row">
+                   PV: {{ left_pv }} | {{ right_pv }}
+               </div>
                <div class="row">
                    Левая: {{ left_count }} | Правая: {{ right_count }} | Общее количество: {{ total_count }}
                </div>
-	<div class="text-left" style="width: 3000px; display:inline-block; overflow-x:scroll">
+                   <div class="row">
+                       {%if user.is_authenticated%}
+                                {%if user.node.id|slugify != root_id|slugify %}
+                                            <a style="border-width: 0px;" href="http://elite-world.club/graph/account.models.Node/{{user.node.id}}/" id="{{ user.node.id }}">Назад</a>
+                                {% endif %}
+                       {% endif %}
+                    </div>
+	<div class="text-left" style="width: 2000px; display:inline-block; overflow-x:scroll">
 		<div class="tree">
 			<ul>
 			{% recursetree nodes %}
 		        <li>
-		        	<a style="border-width: 0px;" href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">
+		        	<!--<a style="border-width: 0px;" href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">-->
+                    <a style="border-width: 0px;" href="http://elite-world.club/graph/account.models.Node/{{ node.id }}/" id="{{ node.id }}">
                         <div class="logo-container">
                         <div class="logo">
                             <img style="border-radius: 50%;" src="{% static 'account/img/new_logo.png' %}"/>
                         </div>
-                        <div class="brand">
-                            Id={{ node.pk }} {{ node.name }}
-                        </div>
+                                {% if node.status == 0 %}
+                                    <div class="brand" style="color: red">
+                                         Id={{ node.pk }} {{ node.name }}
+                                    </div>
+                                {% endif %}
+                                {% if node.status == 1 %}
+                                    <div class="brand">
+                                         Id={{ node.pk }} {{ node.name }}
+                                    </div>
+                                {% endif %}
                         </div>
 		            	<div id="displayzone_{{ id }}" class="displayzone"></div>
 		            </a>
