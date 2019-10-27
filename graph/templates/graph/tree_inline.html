@@ -10,7 +10,7 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="" class="simple-text">
-                    Elite Travel Club
+                    Rich Club
                 </a>
             </div>
             <ul class="nav">
@@ -39,12 +39,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'ProductList' %}">
-                        <i class="ti-home"></i>
-                        <p>Интернет магазин</p>
-                    </a>
-                </li>
-                <li>
                     <a href="{% url 'account:documentation' %}">
                         <i class="ti-map"></i>
                         <p>Документация</p>
@@ -66,17 +60,13 @@
         <div class="content">
             <div class="container-fluid">
                 <a href="{% url 'account:structure' %}">Показать списком</a>
-               <div class="text-center">
-                   <div class="row">
-                   PV: {{ left_pv }} | {{ right_pv }}
-               </div>
                <div class="row">
-                   Левая: {{ left_count }} | Правая: {{ right_count }} | Общее количество: {{ total_count }}
+                   Общее количество: {{ total_count }}
                </div>
                    <div class="row">
                        {%if user.is_authenticated%}
                                 {%if user.node.id|slugify != root_id|slugify %}
-                                            <a style="border-width: 0px;" href="http://elite-world.club/graph/account.models.Node/{{user.node.id}}/" id="{{ user.node.id }}">Назад</a>
+                                            <a style="border-width: 0px;" href="http://localhost:8000/graph/account.models.Node/{{user.node.id}}/" id="{{ user.node.id }}">Назад</a>
                                 {% endif %}
                        {% endif %}
                     </div>
@@ -86,19 +76,19 @@
 			{% recursetree nodes %}
 		        <li>
 		        	<!--<a style="border-width: 0px;" href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">-->
-                    <a style="border-width: 0px;" href="http://elite-world.club/graph/account.models.Node/{{ node.id }}/" id="{{ node.id }}">
+                    <a style="border-width: 0px;" href="http://localhost:8000/graph/account.models.Node/{{ node.id }}/" id="{{ node.id }}">
                         <div class="logo-container">
                         <div class="logo">
                             <img style="border-radius: 50%;" src="{% static 'account/img/new_logo.png' %}"/>
                         </div>
                                 {% if node.status == 0 %}
                                     <div class="brand" style="color: red">
-                                         Id={{ node.pk }} {{ node.name }}
+                                         Id={{ node.pk }} {{ node.user.username }}
                                     </div>
                                 {% endif %}
                                 {% if node.status == 1 %}
                                     <div class="brand">
-                                         Id={{ node.pk }} {{ node.name }}
+                                         Id={{ node.pk }} {{ node.user.username }}
                                     </div>
                                 {% endif %}
                         </div>

@@ -10,7 +10,7 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="" class="simple-text">
-                    Elite Travel Club
+                    Rich Club
                 </a>
             </div>
             <ul class="nav">
@@ -36,12 +36,6 @@
                     <a href="{% url 'account:bonus_history' %}">
                         <i class="ti-server"></i>
                         <p>История бонусов</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'ProductList' %}">
-                        <i class="ti-home"></i>
-                        <p>Интернет магазин</p>
                     </a>
                 </li>
                 <li>
@@ -238,12 +232,6 @@ var x = setInterval(function() {
                                                 <input type="number"  name="parent_id"  class="form-control border-input" value="{{ node.pk }}">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Пакет</label>
-                                                <input type="text" name="package_id"  class="form-control border-input" value="{{ profile.package.name}}">
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -261,7 +249,7 @@ var x = setInterval(function() {
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Отчество</label>
-                                                <input type="text" name="middle_name"  class="form-control border-input" value="{{ profile.middle_name }}">
+                                                <input type="text" name="middle_name"  class="form-control border-input" value="{{ node.middle_name }}">
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +263,7 @@ var x = setInterval(function() {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Сотовый телефон</label>
-                                                <input type="text" name="phone"  class="form-control border-input" value="{{ profile.phone }}">
+                                                <input type="text" name="phone"  class="form-control border-input" value="{{ node.phone }}">
                                             </div>
                                         </div>
                                     </div>
@@ -283,7 +271,7 @@ var x = setInterval(function() {
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Адрес</label>
-                                                <input type="text" name="address"   class="form-control border-input" value="{{ profile.address }}">
+                                                <input type="text" name="address"   class="form-control border-input" value="{{ node.address }}">
                                             </div>
                                         </div>
                                     </div>
@@ -292,13 +280,13 @@ var x = setInterval(function() {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Город</label>
-                                                <input type="text"  name="city"  class="form-control border-input" value="{{ profile.city }}">
+                                                <input type="text"  name="city"  class="form-control border-input" value="{{ node.city }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Страна</label>
-                                                <input type="text" name="country"  class="form-control border-input" value="{{ profile.country }}">
+                                                <input type="text" name="country"  class="form-control border-input" value="{{ node.country }}">
                                             </div>
                                         </div>
                                     </div>

@@ -36,28 +36,9 @@ class ModelGraphView(TemplateView):
         root_node = Node.objects.get(pk=root_node_pk)
         nodes = root_node.get_descendants(include_self=True)[:20]
 
-        left_count = 0
-        right_count = 0
-
-        try:
-            right_child = Node.objects.get(parent=root_node, is_right=True)
-            right_count = right_child.get_descendant_count() + 1
-        except Node.DoesNotExist:
-            right_child = None
-
-        try:
-            left_child = Node.objects.get(parent=root_node, is_right=False)
-            left_count = left_child.get_descendant_count() + 1
-        except Node.DoesNotExist:
-            left_child = None
-
         context['nodes'] = nodes
         context['root_id'] = root_node_pk
-        context['total_count'] = left_count + right_count
-        context['left_count'] = left_count
-        context['right_count'] = right_count
-        context['left_pv'] = root_node.left_point
-        context['right_pv'] = root_node.right_point
+        context['total_count'] = 0
         return context
 
 

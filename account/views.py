@@ -216,7 +216,7 @@ def user_logout(request):
 @login_required
 def home(request):
     user = request.user
-    return render(request, 'account/home.html', {'node': user.node, 'user': user, 'profile': user.userprofile})
+    return render(request, 'account/home.html', {'node': user.node, 'user': user})
 
 
 @login_required
