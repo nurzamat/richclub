@@ -201,7 +201,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="title">
-                            <a href="{% url 'Products' %}"> <h3>Наши <span>продукты</span></h3></a>
+                            <a href="#"> <h3>Наши <span>продукты</span></h3></a>
 						</div>
 					</div>
 				</div>
@@ -213,17 +213,6 @@
                     <section id="content row" class="container-fluid">
                        <div id="main" class="col-sm-12">
 
-    <div class="items row">
-      {% for product in products %}
-        <div class="item col-md-3">
-            <a href="{% url 'ProductDetails' product.id %}">
-                <img src="{% if product.image %}{{ product.image.url }}{% endif %}" class="img-responsive " >
-            </a>
-            <a href="{% url 'ProductDetails' product.id %}"> <h4> {{ product.name }}</h4></a><br>
-
-        </div>
-      {% endfor %}
-    </div>
   </div>
 
 		</section>
