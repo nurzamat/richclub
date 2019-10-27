@@ -84,13 +84,13 @@ def signup(request):
 
         try:
             with transaction.atomic():
-                node, user, user_profile = save_registration(address, city, country, username, email, first_name,
-                                                             last_name, middle_name, parent_node, password, phone, inviter_node)
+                node, user = save_registration(address, city, country, username, email, first_name, last_name,
+                                               middle_name, parent_node, password, phone, inviter_node)
         except IntegrityError:
             return render(request, 'account/signup.html', {'alert': "Ошибка при регистрации",
                                                            'inviter': inviter})
 
-        if user and user_profile and node:
+        if user and node:
             login(request, user)
             return redirect('account:home')
         else:

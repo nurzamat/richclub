@@ -79,18 +79,6 @@
                                                 <input type="number" name="parent_id" class="form-control border-input" placeholder="ID" >
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Пакет </label>
-                                                        {% if packages %}
-                                                             <select name="package_id" class="form-control border-input">
-                                                          {% for package in packages %}
-                                                              <option value="{{ package.id }}">{{ package.name }} - {{ package.percent }} %</option>
-                                                         {% endfor %}
-                                                             </select>
-                                                       {% endif %}
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
