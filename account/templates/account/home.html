@@ -114,14 +114,19 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Баланс</p>
-                                            <p>{{ node.balance }}</p>
+                                            {%if node.balance > 0%}
+                                                <p>{{ node.balance }} som</p>
+                                            {% endif %}
+                                            {%if node.balance_usd > 0%}
+                                                <p>{{ node.balance_usd }} usd</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-money"></i> USD
+                                        <i class="ti-money"></i>
                                     </div>
                                 </div>
                             </div>
@@ -139,14 +144,19 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Бонус</p>
-                                            <p>{{ node.bonus }}</p>
+                                            {%if node.bonus > 0%}
+                                                <p>{{ node.bonus }} som</p>
+                                            {% endif %}
+                                            {%if node.bonus_usd > 0%}
+                                                <p>{{ node.bonus_usd }} usd</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-money"></i> USD
+                                        <i class="ti-money"></i>
                                     </div>
                                 </div>
                             </div>

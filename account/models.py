@@ -16,6 +16,8 @@ class Node(MPTTModel):
     status = models.IntegerField(default=0, null=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
     bonus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
+    balance_usd = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
+    bonus_usd = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
     step = models.IntegerField(default=0)
     created_date = models.DateTimeField(auto_now=False, blank=True, null=True)
     inviter = models.ForeignKey("Node", null=True, blank=True, related_name='invited_children', on_delete=models.DO_NOTHING)
