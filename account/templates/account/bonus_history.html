@@ -70,7 +70,7 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Тип</th>
-                                    	<th>Фамилия Имя</th>
+                                    	<th>Id партнера</th>
                                     	<th>Сумма</th>
                                     	<th>Дата</th>
                                     </thead>
@@ -78,7 +78,7 @@
         {% for bonus in history %}
             <tr>
                 <td>{{ bonus.type }}</td>
-                <td>{{ bonus.partner.name }}</td>
+                <td>{{ bonus.partner.id }}</td>
                 <td>{{ bonus.value }}</td>
                 <td>{{ bonus.created_date }}</td>
             </tr>
