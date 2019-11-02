@@ -20,7 +20,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Calls bonus_calculation('bonus calculation start') every 180 seconds.
-    sender.add_periodic_task(10.0, bonus_calculation.s('bonus calculation start'), name='bonus calculation every 10')
+    sender.add_periodic_task(180.0, bonus_calculation.s('bonus calculation start'), name='bonus calculation every 180')
 
     # Calls test('hello') every 10 seconds.
     # sender.add_periodic_task(10.0, test.s('hello'), name='add every 10')
