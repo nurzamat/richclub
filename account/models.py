@@ -5,6 +5,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+# 0-inactive, 1-person, 2-partner, 3-leader, 4-manager, 5-director, 6-millioner
 class Node(MPTTModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     middle_name = models.CharField(max_length=60, null=True)
@@ -12,12 +13,14 @@ class Node(MPTTModel):
     city = models.CharField(max_length=60, null=True)
     country = models.CharField(max_length=60, null=True)
     address = models.CharField(max_length=60, null=True)
-    status = models.IntegerField(default=0, null=True)  # 1-active, 0-free
+    status = models.IntegerField(default=0, null=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
     bonus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
     step = models.IntegerField(default=0)
     created_date = models.DateTimeField(auto_now=False, blank=True, null=True)
     inviter = models.ForeignKey("Node", null=True, blank=True, related_name='invited_children', on_delete=models.DO_NOTHING)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
+    is_processed = models.BooleanField(default=0)
 
     class Meta:
         verbose_name_plural = "Nodes"
@@ -30,7 +33,17 @@ def get_status(status):
     if status == 0:
         return "    (неактивный)"
     if status == 1:
-        return "    (активный)"
+        return "    (classic)"
+    if status == 2:
+        return "    (Партнер)"
+    if status == 3:
+        return "    (Лидер)"
+    if status == 4:
+        return "    (Менеджер)"
+    if status == 5:
+        return "    (Директор)"
+    if status == 6:
+        return "    (Миллионер)"
     return ""
 
 
