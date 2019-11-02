@@ -23,7 +23,7 @@ admin.site.index_title = ''
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
+    path('', include('account.urls')),
     path('account/', include('account.urls')),
     path('graph/', include('graph.urls')),
 ]
