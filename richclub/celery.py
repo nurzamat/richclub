@@ -48,6 +48,6 @@ def debug_task(self):
 @app.task(ignore_result=True)
 def bonus_calculation(arg):
     print(arg)
-    # from account.tasks import task_calculate_bonus
-    # task_calculate_bonus()
+    from account.tasks import task_calculate_bonus
+    task_calculate_bonus()
 

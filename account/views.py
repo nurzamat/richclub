@@ -220,20 +220,10 @@ def bonus_calculation(node):
 
 
 def calculate_bonus():
-    value_settings = get_object_or_404(PropertyValueSettings, name='pv_som')
-    pv_value_som = int(value_settings.value)
-    # nodes = Node.objects.filter(pk__gt=int(value_settings.value)).order_by('id')
     nodes = Node.objects.filter(status=1, is_processed=0).order_by('id')
-    bonus_settings = BonusSettings.objects.all()
-    bonus_types = BonusType.objects.all()
-    recommendation_type = bonus_types.get(code=1)
-    cycle_type = bonus_types.get(code=3)
-    cycle_bonus_value = bonus_settings.get(bonus_type=cycle_type, level=1).bonus_value
     # last_node_id = 0
     for node in nodes:
-        # last_node_id = node.pk
-        calculate_recommendation_bonus(node, recommendation_type)
-        calculate_parent_bonus(cycle_type, node, node, cycle_bonus_value, pv_value_som)
+        bonus_calculation(node)
         node.is_processed = 1
         node.save()
     # if last_node_id > 0:
