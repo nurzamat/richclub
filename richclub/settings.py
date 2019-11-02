@@ -25,7 +25,7 @@ SECRET_KEY = '2&mp#zqryth#vf3+@+4m=8ybhc12ugj#+e@ad)w%m!8l+&=k2@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '45.76.129.137', 'rich-club.org']
 
 
 # Application definition
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'richclub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+# prod user:u_richclub pass:kol0b0k12 port:5432
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
