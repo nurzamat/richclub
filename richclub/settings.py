@@ -25,7 +25,7 @@ SECRET_KEY = '2&mp#zqryth#vf3+@+4m=8ybhc12ugj#+e@ad)w%m!8l+&=k2@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '45.76.129.137', 'rich-club.org']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '45.76.129.137', 'rich-club.org']
 
 
 # Application definition

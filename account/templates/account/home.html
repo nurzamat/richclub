@@ -107,6 +107,31 @@ var x = setInterval(function() {
                             <div class="content">
                                 <div class="row">
                                     <div class="col-xs-5">
+                                        <div class="icon-big icon-success text-center">
+                                            <i class="ti-wallet"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Баланс</p>
+                                            <p>{{ node.balance }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-money"></i> USD
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
                                         <div class="icon-big icon-warning text-center">
                                             <i class="ti-server"></i>
                                         </div>
@@ -121,7 +146,7 @@ var x = setInterval(function() {
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
+                                        <i class="ti-money"></i> USD
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +164,24 @@ var x = setInterval(function() {
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Этап</p>
-                                            <p>{{ node.step}}</p>
+                                            {%if node.status == 1%}
+                                                <p>classic</p>
+                                            {% endif %}
+                                            {%if node.status == 2%}
+                                                <p>Партнер</p>
+                                            {% endif %}
+                                            {%if node.status == 3%}
+                                                <p>Лидер</p>
+                                            {% endif %}
+                                            {%if node.status == 4%}
+                                                <p>Менеджер</p>
+                                            {% endif %}
+                                            {%if node.status == 5%}
+                                                <p>Директор</p>
+                                            {% endif %}
+                                            {%if node.status == 6%}
+                                                <p>Миллионер</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +254,7 @@ var x = setInterval(function() {
                         </div>
                     </div>
                 </div>
-        <div class="row">
+                <div class="row">
                     <div class="col-lg-8 col-md-7">
                         <div class="card">
                             <div class="header">

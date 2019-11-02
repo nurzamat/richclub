@@ -38,7 +38,7 @@ class ModelGraphView(TemplateView):
 
         context['nodes'] = nodes
         context['root_id'] = root_node_pk
-        context['total_count'] = 0
+        context['total_count'] = root_node.children.count()
         return context
 
 

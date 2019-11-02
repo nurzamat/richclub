@@ -23,7 +23,7 @@ class Node(MPTTModel):
     is_processed = models.BooleanField(default=0)
 
     class Meta:
-        verbose_name_plural = "Nodes"
+        verbose_name_plural = "Ноды"
 
     def __str__(self):
         return self.user.username + get_status(self.status)
@@ -51,6 +51,9 @@ class BonusType(models.Model):
     code = models.IntegerField(default=0, unique=True)
     name = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name_plural = "Типы бонусов"
+
     def __str__(self):
         return self.name
 
@@ -63,6 +66,9 @@ class Bonus(models.Model):
     currency = models.CharField(max_length=20, null=True, blank=True)
     created_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = "Бонусы"
+
     def __str__(self):
         return self.value
 
@@ -74,6 +80,9 @@ class BonusSettings(models.Model):
     is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Бонусы"
+
     def __str__(self):
         return self.bonus_type.name
 
@@ -81,6 +90,9 @@ class BonusSettings(models.Model):
 class PropertyValueSettings(models.Model):
     name = models.CharField(max_length=50)
     value = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = "Свойства"
 
     def __str__(self):
         return self.name
