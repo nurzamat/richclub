@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5433/richclub</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="richclub@45.76.129.137" uuid="58a0eaac-40c8-4f27-9998-c7721fab4e9b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://45.76.129.137:5432/richclub</jdbc-url>
+    </data-source>
   </component>
 </project>
