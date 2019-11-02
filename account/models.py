@@ -72,7 +72,7 @@ class Bonus(models.Model):
         verbose_name_plural = "Бонусы"
 
     def __str__(self):
-        return self.value
+        return str(self.value)
 
 
 class BonusSettings(models.Model):
