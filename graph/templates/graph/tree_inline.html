@@ -66,7 +66,7 @@
                    <div class="row">
                        {%if user.is_authenticated%}
                                 {%if user.node.id|slugify != root_id|slugify %}
-                                            <a style="border-width: 0px;" href="http://localhost:8000/graph/account.models.Node/{{user.node.id}}/" id="{{ user.node.id }}">Назад</a>
+                                            <a style="border-width: 0px;" href="http://rich-club.org/graph/account.models.Node/{{user.node.id}}/" id="{{ user.node.id }}">Назад</a>
                                 {% endif %}
                        {% endif %}
                     </div>
@@ -76,7 +76,7 @@
 			{% recursetree nodes %}
 		        <li>
 		        	<!--<a style="border-width: 0px;" href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">-->
-                    <a style="border-width: 0px;" href="http://localhost:8000/graph/account.models.Node/{{ node.id }}/" id="{{ node.id }}">
+                    <a style="border-width: 0px;" href="http://rich-club.org/graph/account.models.Node/{{ node.id }}/" id="{{ node.id }}">
                         <div class="logo-container">
                         <div class="logo">
                             <img style="border-radius: 50%;" src="{% static 'account/img/new_logo.png' %}"/>
