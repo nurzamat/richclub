@@ -64,8 +64,8 @@ def signup(request):
                                                            'inviter': inviter})
 
         if tree_parent == '':
-            return render(request, 'account/signup.html', {'alert': "Укажите parent id",
-                                                           'inviter': inviter})
+            tree_parent = inviter
+            # return render(request, 'account/signup.html', {'alert': "Укажите parent id", 'inviter': inviter})
             # auto define node
             # node = get_object_or_404(Node, inviter=inviter_node)
             # left_node, left_count = get_tree_parent_node(node, False, 0)
@@ -76,8 +76,8 @@ def signup(request):
             # else:
             #    parent_node = left_node
             #    is_right = False
-        else:
-            parent_node = get_object_or_404(Node, pk=int(tree_parent))
+        # else:
+        parent_node = get_object_or_404(Node, pk=int(tree_parent))
         #    if parent_node.children.count() > 5:
         #        return render(request, 'account/signup.html',
         #                      {'alert': "Данный tree parent занят", 'inviter': inviter})
