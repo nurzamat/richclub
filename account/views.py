@@ -129,11 +129,19 @@ def bonus_calculation(node):
     first_parent = node.parent
     if first_parent is None:
         return
-    if first_parent.status != 1:
+    if first_parent.status == 0:
         return
     bonus = 500
-    if first_parent.bonus < 6 * bonus:
+    if first_parent.revert_bonus + bonus < 6 * bonus:
         first_parent.bonus = first_parent.bonus + bonus
+        first_parent.revert_bonus = first_parent.revert_bonus + bonus
+        Bonus.objects.create(node=first_parent, value=bonus, partner=node, currency='som', type='bonus')
+    elif first_parent.revert_bonus + bonus == 6 * bonus:
+        first_parent.bonus = first_parent.bonus + bonus
+        first_parent.revert_bonus = first_parent.revert_bonus + bonus
+
+        first_parent.bonus = first_parent.bonus - first_parent.revert_bonus
+        first_parent.balance = first_parent.balance + first_parent.revert_bonus
         Bonus.objects.create(node=first_parent, value=bonus, partner=node, currency='som', type='bonus')
     else:
         first_parent.balance = first_parent.balance + bonus
@@ -146,13 +154,17 @@ def bonus_calculation(node):
         return
     if second_parent.status != 1:
         return
-    if second_parent.bonus < 36 * bonus:
+    if second_parent.bonus + bonus < 36 * bonus:
         second_parent.bonus = second_parent.bonus + bonus
+        second_parent.save()
+        Bonus.objects.create(node=second_parent, value=bonus, partner=node, currency='som', type='bonus')
+    elif second_parent.bonus + bonus == 36 * bonus:
+        second_parent.bonus = second_parent.bonus + bonus
+        second_parent.status = 2
         second_parent.save()
         Bonus.objects.create(node=second_parent, value=bonus, partner=node, currency='som', type='bonus')
     else:
         second_parent.balance = second_parent.balance + bonus
-        second_parent.status = 2
         second_parent.save()
         Bonus.objects.create(node=second_parent, value=bonus, partner=node, currency='som', type='balance')
 
