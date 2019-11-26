@@ -21,6 +21,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{% url 'account:profile' %}">
+                        <i class="ti-user"></i>
+                        <p>Профиль</p>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">
                         <i class="ti-view-list-alt"></i>
                         <p>Структура</p>

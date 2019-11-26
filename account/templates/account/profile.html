@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidebar %}
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                    Rich Club
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'account:home' %}">
+                        <i class="ti-home"></i>
+                        <p>Общая сводка</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'account:profile' %}">
+                        <i class="ti-user"></i>
+                        <p>Профиль</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node'  node.id %}">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Структура</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:invited' %}">
+                        <i class="ti-user"></i>
+                        <p>Приглашенные</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:bonus_history' %}">
+                        <i class="ti-server"></i>
+                        <p>История бонусов</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:documentation' %}">
+                        <i class="ti-map"></i>
+                        <p>Документация</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:notifications' %}">
+                        <i class="ti-bell"></i>
+                        <p>Уведомления</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+{% endblock %}
+{% block javascript %}
+  <script>
+      $(document).ready(function(){
+
+          var expired_date = $('#expired_date').val();
+          var date = new Date(expired_date).getTime();
+
+// Set the date we're counting down to
+//var countDownDate = new Date("May 17, 2019 15:37:25").getTime();
+var countDownDate = new Date(date).getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now an the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in an element with id="demo"
+  //document.getElementById("timer_val").innerHTML = days + "d " + hours + "h "
+  //+ minutes + "m " + seconds + "s ";
+    var days_txt = "";
+    if(days > 0)
+        days_txt = days + "д ";
+    document.getElementById("timer_val").innerHTML = days_txt + hours + "ч "
+  + minutes + "м " + seconds + "с ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("timer_val").innerHTML = "EXPIRED";
+  }
+}, 1000);
+    	});
+  </script>
+{% endblock %}
+{% block content %}
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="header">
+                                {% if node.status == 0 %}
+                                    <h4 class="title" style="color: red">Профиль неактивный</h4>
+                                {% endif %}
+                                {% if node.status == 1 %}
+                                    <h4 class="title" >Профиль</h4>
+                                {% endif %}
+                            </div>
+                            <div class="content">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>ID</label>
+                                                <input type="number"  name="parent_id"  class="form-control border-input" value="{{ node.pk }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Фамилия</label>
+                                                <input type="text"  name="last_name"  class="form-control border-input" value="{{ user.last_name }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Имя</label>
+                                                <input type="text" name="first_name"  class="form-control border-input" value="{{ user.first_name }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Отчество</label>
+                                                <input type="text" name="middle_name"  class="form-control border-input" value="{{ node.middle_name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Email</label>
+                                                <input type="email" name="email"   class="form-control border-input" value="{{ user.email }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Сотовый телефон</label>
+                                                <input type="text" name="phone"  class="form-control border-input" value="{{ node.phone }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Адрес</label>
+                                                <input type="text" name="address"   class="form-control border-input" value="{{ node.address }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Город</label>
+                                                <input type="text"  name="city"  class="form-control border-input" value="{{ node.city }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Страна</label>
+                                                <input type="text" name="country"  class="form-control border-input" value="{{ node.country }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    Дата регистрации: {{ node.created_date }}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

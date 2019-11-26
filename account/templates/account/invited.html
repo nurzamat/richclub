@@ -21,6 +21,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{% url 'account:profile' %}">
+                        <i class="ti-user"></i>
+                        <p>Профиль</p>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'graph:mpttgraph-inline' 'account.models.Node' node.id %}">
                         <i class="ti-view-list-alt"></i>
                         <p>Структура</p>
@@ -110,7 +116,7 @@
                                         <th>ID</th>
                                     	<th>Логин</th>
                                     	<th>Фамилия Имя</th>
-                                    	<th>Балл</th>
+                                    	<th>Статус</th>
                                     	<th>Регистрация</th>
                                     </thead>
                                     <tbody id="table_body">
@@ -119,7 +125,26 @@
                 <td>{{ node.pk }}</td>
                 <td>{{ node.user.username }}</td>
                 <td>{{ node.user.last_name }} {{ node.user.first_name }}</td>
-                <td>{{ node.total_point }}</td>
+                <td>
+                                            {%if node.status == 1%}
+                                                <p>classic</p>
+                                            {% endif %}
+                                            {%if node.status == 2%}
+                                                <p>Партнер</p>
+                                            {% endif %}
+                                            {%if node.status == 3%}
+                                                <p>Лидер</p>
+                                            {% endif %}
+                                            {%if node.status == 4%}
+                                                <p>Менеджер</p>
+                                            {% endif %}
+                                            {%if node.status == 5%}
+                                                <p>Директор</p>
+                                            {% endif %}
+                                            {%if node.status == 6%}
+                                                <p>Миллионер</p>
+                                            {% endif %}
+                </td>
                 <td>{{ node.user.date_joined }}</td>
             </tr>
         {% endfor %}

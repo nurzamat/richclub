@@ -314,6 +314,12 @@ def home(request):
 
 
 @login_required
+def profile(request):
+    user = request.user
+    return render(request, 'account/profile.html', {'node': user.node, 'user': user})
+
+
+@login_required
 def structure(request):
     user = request.user
     node = user.node
@@ -325,7 +331,7 @@ def structure(request):
 def invited(request):
     user = request.user
     node = user.node
-    nodes = Node.objects.filter(inviter=node)
+    nodes = Node.objects.filter(parent=node)
     return render(request, 'account/invited.html', {'node': node, 'nodes': nodes})
 
 
@@ -334,11 +340,11 @@ def invited_ajax(request):
     user = request.user
     level = int(request.GET.get('level'))
     s = 1
-    ids = Node.objects.filter(inviter=user.node).values_list('inviter_id', flat=True)
+    ids = Node.objects.filter(parent=user.node).values_list('parent_id', flat=True)
     while s < level:
         s = s + 1
-        ids = Node.objects.filter(inviter__pk__in=ids).values_list('inviter_id', flat=True)
-    nodes = Node.objects.filter(inviter__pk__in=ids)
+        ids = Node.objects.filter(parent__pk__in=ids).values_list('parent_id', flat=True)
+    nodes = Node.objects.filter(parent__pk__in=ids)
     return render(request, 'account/invited_ajax.html', {'nodes': nodes})
 
 
