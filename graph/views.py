@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from django.db.models import Q
 from django.http.response import Http404
 from django.views.generic import TemplateView
 from graph.models import GraphModel
@@ -34,7 +34,8 @@ class ModelGraphView(TemplateView):
         # model = get_model_from_path(self.kwargs['modpath'])
         root_node_pk = self.kwargs['pk']
         root_node = Node.objects.get(pk=root_node_pk)
-        nodes = root_node.get_descendants(include_self=True)[:20]
+
+        nodes = Node.objects.filter(Q(parent=root_node) | Q(pk=root_node_pk))
 
         context['nodes'] = nodes
         context['root_id'] = root_node_pk
