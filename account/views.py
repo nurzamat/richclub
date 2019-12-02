@@ -78,9 +78,9 @@ def signup(request):
             #    is_right = False
         # else:
         parent_node = get_object_or_404(Node, pk=int(tree_parent))
-        #    if parent_node.children.count() > 5:
-        #        return render(request, 'account/signup.html',
-        #                      {'alert': "Данный tree parent занят", 'inviter': inviter})
+        if parent_node.children.count() > 5:
+            return render(request, 'account/signup.html',
+                              {'alert': "Данный ID занят", 'inviter': inviter})
 
         try:
             with transaction.atomic():
