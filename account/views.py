@@ -128,7 +128,7 @@ def gold_calculation(node):
     first_gold_parent = node.parent
     if first_gold_parent is None:
         return
-    if first_gold_parent.status != 2:
+    if first_gold_parent.status == 0:
         return
     first_gold_parent.bonus_usd = first_gold_parent.bonus_usd + 100
     if first_gold_parent.bonus_usd >= 600:
