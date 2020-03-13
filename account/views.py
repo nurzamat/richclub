@@ -124,58 +124,64 @@ def save_registration(address, city, country, username, email, first_name, last_
 
     return node, user
 
+
 def gold_calculation(node):
     first_gold_parent = node.parent
     if first_gold_parent is None:
         return
-    if first_gold_parent.status == 0:
-        return
-    first_gold_parent.bonus_usd = first_gold_parent.bonus_usd + 100
-    if first_gold_parent.bonus_usd >= 600:
-        first_gold_parent.balance_usd = first_gold_parent.bonus_usd
-        fifth_gold_parent.bonus_usd = 0
-        first_gold_parent.status = 3
-    first_gold_parent.save()
-    Bonus.objects.create(node=first_gold_parent, value=100, partner=node, currency='usd', type='balance')
+    if first_gold_parent.status == 1 or first_gold_parent.status == 2:
+        first_gold_parent.bonus_status = first_gold_parent.bonus_status + 100
+        first_gold_parent.bonus_travel = first_gold_parent.bonus_travel + 100
+        if first_gold_parent.bonus_status >= 600:
+            first_gold_parent.bonus_status = 0
+            first_gold_parent.status = 3
+        first_gold_parent.save()
+        Bonus.objects.create(node=first_gold_parent, value=100, partner=node, currency='usd', type='balance')
 
     second_gold_parent = first_gold_parent.parent
     if second_gold_parent is None:
         return
-    if second_gold_parent.status != 3:
-        return
-    second_gold_parent.balance_usd = second_gold_parent.balance_usd + 30
-    second_gold_parent.bonus_usd = second_gold_parent.bonus_usd + 20
-    if second_gold_parent.bonus_usd >= 720:
-        second_gold_parent.status = 4
-    second_gold_parent.save()
-    Bonus.objects.create(node=second_gold_parent, value=30, partner=node, currency='usd', type='balance')
-    Bonus.objects.create(node=second_gold_parent, value=20, partner=node, currency='usd', type='bonus')
+    if second_gold_parent.status > 0:
+        second_gold_parent.balance_usd = second_gold_parent.balance_usd + 30
+        second_gold_parent.bonus_usd = second_gold_parent.bonus_usd + 20
+        if second_gold_parent.status == 3:
+            second_gold_parent.bonus_status = second_gold_parent.bonus_status + 20
+            if second_gold_parent.bonus_status >= 720:
+                second_gold_parent.bonus_status = 0
+                second_gold_parent.status = 4
+        second_gold_parent.save()
+        Bonus.objects.create(node=second_gold_parent, value=30, partner=node, currency='usd', type='balance')
+        Bonus.objects.create(node=second_gold_parent, value=20, partner=node, currency='usd', type='bonus')
 
     third_gold_parent = second_gold_parent.parent
     if third_gold_parent is None:
         return
-    if third_gold_parent.status != 4:
-        return
-    third_gold_parent.balance_usd = third_gold_parent.balance_usd + 30
-    third_gold_parent.bonus_usd = third_gold_parent.bonus_usd + 10
-    if third_gold_parent.bonus_usd >= 2160:
-        third_gold_parent.status = 5
-    third_gold_parent.save()
-    Bonus.objects.create(node=third_gold_parent, value=30, partner=node, currency='usd', type='balance')
-    Bonus.objects.create(node=third_gold_parent, value=10, partner=node, currency='usd', type='bonus')
+    if third_gold_parent.status > 0:
+        third_gold_parent.balance_usd = third_gold_parent.balance_usd + 30
+        third_gold_parent.bonus_usd = third_gold_parent.bonus_usd + 10
+        if third_gold_parent.status == 4:
+            third_gold_parent.bonus_status = third_gold_parent.bonus_status + 10
+            if third_gold_parent.bonus_status >= 2160:
+                third_gold_parent.bonus_status = 0
+                third_gold_parent.status = 5
+        third_gold_parent.save()
+        Bonus.objects.create(node=third_gold_parent, value=30, partner=node, currency='usd', type='balance')
+        Bonus.objects.create(node=third_gold_parent, value=10, partner=node, currency='usd', type='bonus')
 
     fours_gold_parent = third_gold_parent.parent
     if fours_gold_parent is None:
         return
-    if fours_gold_parent.status != 5:
-        return
-    fours_gold_parent.balance_usd = fours_gold_parent.balance_usd + 20
-    fours_gold_parent.bonus_usd = fours_gold_parent.bonus_usd + 7
-    if fours_gold_parent.bonus_usd >= 9702:
-        fours_gold_parent.status = 6
-    fours_gold_parent.save()
-    Bonus.objects.create(node=fours_gold_parent, value=20, partner=node, currency='usd', type='balance')
-    Bonus.objects.create(node=fours_gold_parent, value=7, partner=node, currency='usd', type='bonus')
+    if fours_gold_parent.status > 0:
+        fours_gold_parent.balance_usd = fours_gold_parent.balance_usd + 20
+        fours_gold_parent.bonus_usd = fours_gold_parent.bonus_usd + 7
+        if fours_gold_parent.status == 5:
+            fours_gold_parent.bonus_status = fours_gold_parent.bonus_status + 7
+            if fours_gold_parent.bonus_status >= 9702:
+                fours_gold_parent.bonus_status = 0
+                fours_gold_parent.status = 6
+        fours_gold_parent.save()
+        Bonus.objects.create(node=fours_gold_parent, value=20, partner=node, currency='usd', type='balance')
+        Bonus.objects.create(node=fours_gold_parent, value=7, partner=node, currency='usd', type='bonus')
 
 
 def bonus_calculation(node):
