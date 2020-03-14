@@ -92,7 +92,7 @@
                                          Id={{ node.pk }} {{ node.user.username }}
                                     </div>
                                 {% endif %}
-                                {% if node.status == 1 %}
+                                {% if node.status > 0 %}
                                     <div class="brand">
                                          Id={{ node.pk }} {{ node.user.username }}
                                     </div>
