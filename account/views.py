@@ -120,7 +120,7 @@ def save_registration(address, city, country, username, email, first_name, last_
     user.save()
 
     node = Node.objects.create(user=user, address=address, country=country, city=city, middle_name=middle_name, phone=phone, parent=parent_node,
-                               inviter=inviter)
+                               inviter=inviter, bonus_travel=50)
 
     return node, user
 
